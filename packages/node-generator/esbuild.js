@@ -11,14 +11,6 @@ const glob = require("tiny-glob");
       entryPoints: entryPoints, 
       bundle: true,
       platform: 'node',
-      target: ['node16.15.1'],
-
-      bundle: true,
-      sourcemap: true,
-      minify: true,
-      splitting: true,
-      format: 'esm',
-      target: ['es2019']
     })
     .catch(() => process.exit(1));
 })();
