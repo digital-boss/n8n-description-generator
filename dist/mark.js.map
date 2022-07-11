@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/mark.ts"],
+  "sourcesContent": ["import { VisitFn } from './traverse';\nimport { TraverseContext } from './TraverseContext';\n\nexport type TypeResolvers<TTypeName, TSrc> = Array<[TTypeName, (ctx: TraverseContext<TTypeName, TSrc>, value: any) => boolean]>;\n\nexport const createTypeMarker = <TTypeName, TSrc>(\n\tctx: TraverseContext<TTypeName, TSrc>,\n\tresolvers: TypeResolvers<TTypeName, TSrc>,\n): VisitFn => (value: any, path: Array<string | number>, sourceObj: any) => {\n\tctx.path = [...path];\n\tconst res = resolvers.find(([_, r]) => r(ctx, value));\n\tif (res) {\n\t\tctx.setData(path, {type: res[0]});\n\t}\n};\n\n"],
+  "mappings": "AAKO,GAAM,GAAmB,CAC/B,EACA,IACa,CAAC,EAAY,EAA8B,IAAmB,CAC3E,EAAI,KAAO,CAAC,GAAG,CAAI,EACnB,GAAM,GAAM,EAAU,KAAK,CAAC,CAAC,EAAG,KAAO,EAAE,EAAK,CAAK,CAAC,EACpD,AAAI,GACH,EAAI,QAAQ,EAAM,CAAC,KAAM,EAAI,EAAE,CAAC,CAElC",
+  "names": []
+}

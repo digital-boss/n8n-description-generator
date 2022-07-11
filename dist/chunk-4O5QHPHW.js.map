@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/utils.ts"],
+  "sourcesContent": ["export const getDeepValue = (path: Array<string | number>, obj: any) => path.reduce((acc, i) => acc[i], obj);\n"],
+  "mappings": "AAAO,GAAM,GAAe,CAAC,EAA8B,IAAa,EAAK,OAAO,CAAC,EAAK,IAAM,EAAI,GAAI,CAAG",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/codegen.ts"],
+  "sourcesContent": ["const toStr = (json: any) => JSON.stringify(json, undefined, '\\t');\n\nexport const warnMsg = '// This code was generated. Therefore do not edit it directly.';\n\n//*** Modules\n\nexport const getJsModule = (json: any, name: string): string => {\n\tconst str = toStr(json);\n\tconst type = json instanceof Array ? 'INodeProperties[]' : 'INodeProperties';\n\treturn `${warnMsg}\n\nimport { INodeProperties } from \"n8n-workflow\";\n\nexport const ${name}: ${type} = ${str}\n`;\n};\n\nexport const getJsModuleForNode = (json: any, typeName: string, from: string): string => {\n\tconst str = toStr(json);\n\treturn `${warnMsg}\n\nimport { ${typeName} } from '${from}';\n\nexport const nodeDescr: ${typeName} = ${str}\n`;\n};\n\n//*** Code snippets\n\nexport const getConstFromObject = (constName: string, json: any): string => {\n\tconst str = toStr(json);\n\treturn `export const ${constName} = ${str} as const;`;\n};\n"],
+  "mappings": "AAAA,GAAM,GAAQ,AAAC,GAAc,KAAK,UAAU,EAAM,OAAW,GAAI,EAEpD,EAAU,iEAIV,EAAc,CAAC,EAAW,IAAyB,CAC/D,GAAM,GAAM,EAAM,CAAI,EAChB,EAAO,YAAgB,OAAQ,oBAAsB,kBAC3D,MAAO,GAAG;AAAA;AAAA;AAAA;AAAA,eAII,MAAS,OAAU;AAAA,CAElC,EAEa,EAAqB,CAAC,EAAW,EAAkB,IAAyB,CACxF,GAAM,GAAM,EAAM,CAAI,EACtB,MAAO,GAAG;AAAA;AAAA,WAEA,aAAoB;AAAA;AAAA,0BAEL,OAAc;AAAA,CAExC,EAIa,EAAqB,CAAC,EAAmB,IAAsB,CAC3E,GAAM,GAAM,EAAM,CAAI,EACtB,MAAO,gBAAgB,OAAe,aACvC",
+  "names": []
+}

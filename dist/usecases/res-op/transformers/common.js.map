@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/usecases/res-op/transformers/common.ts"],
+  "sourcesContent": ["import { ConditionFn, propSetter, TransformerFn } from 'src/transform';\n\n\n/******************************************************************************\n * Utilities\n */\n\nexport const cap1st = (i: string): string => i[0].toUpperCase() + i.slice(1);\n\nexport const createDisplayName = (name: string): string => {\n\tconst words = name.split(/(?=[A-Z])/); // split by capitals\n\treturn words.map(cap1st).join(' ');\n};\n\n\n/******************************************************************************\n * Conditions and Transformers\n */\n\nexport const isString: ConditionFn = v => typeof v === 'string';\nexport const setDisplayName: TransformerFn = propSetter('displayName', v => createDisplayName(v.name));\n"],
+  "mappings": "+CAOO,GAAM,GAAS,AAAC,GAAsB,EAAE,GAAG,YAAY,EAAI,EAAE,MAAM,CAAC,EAE9D,EAAoB,AAAC,GAE1B,AADO,EAAK,MAAM,WAAW,EACvB,IAAI,CAAM,EAAE,KAAK,GAAG,EAQrB,EAAwB,GAAK,MAAO,IAAM,SAC1C,EAAgC,EAAW,cAAe,GAAK,EAAkB,EAAE,IAAI,CAAC",
+  "names": []
+}

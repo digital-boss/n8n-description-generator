@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/usecases/res-op/transformers/option.ts"],
+  "sourcesContent": ["import { propSetter, TransformerFn } from 'src/transform';\n\n\nexport const fromString: TransformerFn = v => {\n\treturn {\n\t\tvalue: v,\n\t};\n};\n\nexport const setName: TransformerFn = propSetter('name', v => v.value);\n"],
+  "mappings": "+CAGO,GAAM,GAA4B,GACjC,EACN,MAAO,CACR,GAGY,EAAyB,EAAW,OAAQ,GAAK,EAAE,KAAK",
+  "names": []
+}
