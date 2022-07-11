@@ -1,0 +1,22 @@
+{
+  "name": "diboss-dev-tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digital-boss/n8n-node-generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/digital-boss/n8n-node-generator/issues"
+  },
+  "homepage": "https://github.com/digital-boss/n8n-node-generator#readme",
+  "devDependencies": {
+    "lerna": "^5.1.8"
+  }
+}
