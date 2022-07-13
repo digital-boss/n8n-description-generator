@@ -19,6 +19,7 @@
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"useUnknownInCatchVariables": false,
+		"baseUrl": ".",
 	},
 	"include": [
 		"credentials/**/*",

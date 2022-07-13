@@ -34,10 +34,30 @@ export const createNode = (
     path: p.nodeDir,
     data: p,
   }),
-  () => fs.copyFileSync(credsTlpPath, path.join(p.package.packageDir, 'credentials', `${p.nodeName}.credentials.ts`)),
+  () => fs.copyFileSync(credsTlpPath, path.join(p.package.packageDir, 'credentials', `${p.nodeName}Api.credentials.ts`)),
   new SubstituteTask({
     path: path.join(p.package.packageDir, 'credentials'),
     data: p,
   }),
   assignJson(path.join(p.package.packageDir, 'package.json'), p.packageJson),
 ]);
+
+/*
+ToDo:
+- Check how n8n section looks for two nodes, it should contain merged result, but I suspect that it doesn't work.
+- gen scripts. How about gen and multiple nodes in package?
+- add deps:
+  - devDeps:
+    - esbuild
+    - generator
+  - deps:
+    - designpatterns
+- init git
+
+Then:
+- npm i
+- npm run gen
+- npm run build
+- npm link
+- add link to local instance and run
+*/
