@@ -1,6 +1,6 @@
 import fs from 'fs';
 import fse from 'fs-extra';
-import { Task, TasksRunner } from "./lib";
+import { Task, TasksContainer } from "./lib";
 import { renameTask } from './tasks/rename';
 import { SubstituteTask } from './tasks/substitute';
 
@@ -21,5 +21,5 @@ const tasks: Task[] = [
   }),
 ];
 
-const runner = new TasksRunner(tasks);
+const runner = new TasksContainer(tasks);
 runner.run();

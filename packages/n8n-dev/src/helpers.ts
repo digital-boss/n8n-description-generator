@@ -1,54 +1,77 @@
 import path from 'path';
 
-interface INewNodeParamsMin {
+const toLowerCamel = (s: string) => s[0].toLowerCase() + s.slice(1);
+
+// newPackage
+
+export interface IPackageParamsMin {
   ns: string,
-  nodeName: string,
-  outDir: string,
+  suffix: string,
+  baseDir: string,
   desc?: string;
-  iconPath?: string;
 }
 
-interface INewNodeParams extends INewNodeParamsMin {
+export interface IPackageParams extends IPackageParamsMin {
   packageName: string,
   packageFullName: string,
   packageDir: string,
-  nodeNameCamel: string,
-  iconFileName: string,
-  nodeDir: string,
+  packageJson: any,
 }
 
-export const newNode = (params: INewNodeParamsMin): INewNodeParams => {
-  const name = params.nodeName.toLowerCase();
-  const packageName = `n8n-nodes-${name}`;
-  const packageDir = path.join(params.outDir, packageName);
-  const nodeNameCamel = params.nodeName[0].toLowerCase() + params.nodeName.slice(1);
+export const newPackage = (params: IPackageParamsMin): IPackageParams => {
+  const packageName = `n8n-nodes-${params.suffix}`;
+  const packageFullName = `@${params.ns}/${packageName}`;
+  const packageDir = path.join(params.baseDir, packageName);
   return {
     ...params,
     packageName,
-    packageFullName: `@${params.ns}/${packageName}`,
+    packageFullName,
     packageDir,
-    nodeDir: path.join(packageDir, 'nodes', params.nodeName),
-    nodeNameCamel,
-    iconFileName: nodeNameCamel + path.extname(params.iconPath || ''),
+    packageJson: {
+      "name": packageFullName,
+      "description": params.desc || '',
+      "homepage": `https://github.com/${params.ns}/${params.packageName}`,
+      "repository": {
+        "type": "git",
+        "url": `git+https://github.com/${params.ns}/${params.packageName}.git`
+      },
+    }
   }
 }
 
-export const getPackageJson = (params: INewNodeParams): any => {
+// newNode
+
+export interface INodeParamsMin {
+  package: IPackageParams,
+  nodeName: string,
+  iconPath?: string;
+}
+
+export interface INodeParams extends INodeParamsMin {
+  nodeNameCamel: string,
+  iconFileName: string,
+  nodeDir: string,
+  packageJson: any,
+}
+
+export const newNode = (params: INodeParamsMin): INodeParams => {
+  const name = params.nodeName.toLowerCase();
+  
+  const nodeNameCamel = toLowerCamel(params.nodeName);
   return {
-    "name": params.packageFullName,
-    "description": params.desc || '',
-    "homepage": `https://github.com/${params.ns}/${params.packageName}`,
-    "repository": {
-      "type": "git",
-      "url": `git+https://github.com/${params.ns}/${params.packageName}.git`
-    },
-    "n8n": {
-      "credentials": [
-        `dist/credentials/${params.nodeName}Api.credentials.js`
-      ],
-      "nodes": [
-        `dist/nodes/${params.nodeName}/${params.nodeName}.node.js`
-      ]
+    ...params,
+    nodeNameCamel,
+    iconFileName: nodeNameCamel + path.extname(params.iconPath || ''),
+    nodeDir: path.join(params.package.packageDir, 'nodes', params.nodeName),
+    packageJson: {
+      "n8n": {
+        "credentials": [
+          `dist/credentials/${params.nodeName}Api.credentials.js`
+        ],
+        "nodes": [
+          `dist/nodes/${params.nodeName}/${params.nodeName}.node.js`
+        ]
+      },
     },
   }
 }

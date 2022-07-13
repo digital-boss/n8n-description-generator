@@ -4,7 +4,7 @@ export interface ITask {
 
 export type Task = ITask | (() => void);
 
-export class TasksRunner {
+export class TasksContainer implements ITask {
   tasks: Task[];
 
   constructor(tasks: Task[]) {

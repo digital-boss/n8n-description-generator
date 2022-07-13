@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node -r esbuild-runner/register src/index.ts",
     "start:test": "node -r esbuild-runner/register src/test.ts",
-    "test": "jest"
+    "test": "jest",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "lintfix": "tslint --fix -p tsconfig.json -c tslint.json"
   },
   "author": "",
   "license": "ISC",
