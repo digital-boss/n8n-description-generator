@@ -33,7 +33,7 @@ export class {{nodeName}} implements INodeType {
 		description: `Consume {{nodeName}} API (v.${version})`,
 		defaults: {
 				name: '{{nodeName}}',
-				color: '#f89000',
+				color: '{{brandColor}}',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

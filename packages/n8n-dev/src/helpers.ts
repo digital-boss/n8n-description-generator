@@ -44,7 +44,8 @@ export const newPackage = (params: IPackageParamsMin): IPackageParams => {
 export interface INodeParamsMin {
   package: IPackageParams,
   nodeName: string,
-  iconPath?: string;
+  brandColor: string,
+  iconPath?: string,
 }
 
 export interface INodeParams extends INodeParamsMin {

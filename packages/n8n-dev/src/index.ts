@@ -17,12 +17,14 @@ const packageParams = newPackage({
 const myNode1 = newNode({
   package: packageParams,
   nodeName: "MyNode1",
+  brandColor: '#f89000',
   iconPath: 'templates/SomeRandomName.png'
 });
 
 const myNode2 = newNode({
   package: packageParams,
   nodeName: "MyNode2",
+  brandColor: '#f89000',
   iconPath: 'templates/SomeRandomName.png'
 });
 
