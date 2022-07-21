@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { ITask } from "src/lib";
-import { getAllFiles, getAllVars, renderTpl, walk } from '../utils';
+import { renderTpl } from 'src/utils/templates';
+import { walk } from 'src/utils/fs/walk';
 
 export interface ISubstituteTask {
   /**

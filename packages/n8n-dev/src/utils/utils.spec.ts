@@ -1,4 +1,5 @@
-import { getAllFiles, getAllVars, renderTpl } from './utils';
+import { getAllFiles } from './fs/getAllFiles';
+import { getAllVars, renderTpl } from "./templates";
 
 test('getAllFiles', () => {
   const files = getAllFiles('./templates');

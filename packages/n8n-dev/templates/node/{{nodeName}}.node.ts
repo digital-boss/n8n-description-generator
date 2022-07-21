@@ -11,16 +11,13 @@ import {
 
 import { version } from '../version';
 import { {{nodeNameCamel}}ApiTest } from './{{nodeName}}ApiTest';
-import { groupFields } from './descriptions/generated/groupFields';
 import { resources } from './descriptions/generated/resources';
-import { simFields } from './descriptions/generated/simFields';
 import { nodeDescr } from './descriptions/generated/nodeDescr';
-import { getNodeExecFn } from 'n8n-designpatterns/dist/getNodeExecFn';
-import { OperationExecutor } from './backend/operations';
 import { resourcesConst } from './descriptions/generated/resourceOperations';
-import { HttpClient } from './backend/HttpClient';
-import { ReturnParamsExecutor } from 'n8n-designpatterns/dist/usecases/ReturnParamsExecutor';
-import { ExecFnHelperBase } from 'n8n-designpatterns/dist/ExecFnHelperBase';
+import { ResOpExecutor, ResOpResolver } from '@digital-boss/n8n-designpatterns/dist/usecases/res-op';
+import { ReturnParamsExecutor } from '@digital-boss/n8n-designpatterns/dist/usecases';
+import { getNodeExecFn, StateBase } from '@digital-boss/n8n-designpatterns/dist';
+
 
 export class {{nodeName}} implements INodeType {
 	description: INodeTypeDescription = {
@@ -46,8 +43,9 @@ export class {{nodeName}} implements INodeType {
 		],
 		properties: [
 			resources,
-			...groupFields,
-			...simFields,
+			//...<resource1>Fields,
+			//...<resource2>Fields,
+			//...
 		],
 	};
 
@@ -58,15 +56,17 @@ export class {{nodeName}} implements INodeType {
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-		const httpClient = await HttpClient.create(this);
 		const resource = this.getNodeParameter('resource', 0) as typeof resourcesConst[number];
 		const operation = this.getNodeParameter('operation', 0) as string;
 
-		const execFnHelper = new ExecFnHelperBase(this);
-		//const returnParamsExec = new ReturnParamsExecutor(execFnHelper);
-		const executor = new OperationExecutor(nodeDescr, resource, operation, execFnHelper, httpClient);
+		// Build Executor
+		// const httpClient = await HttpClient.create(this);
+		// const state = new State(this, nodeDescr, resource, operation);
+		// const opResolver = new ResOpResolver(operationMethods, resource, operation, fallbackOperation);
+		// const executor = new ResOpExecutor(state, opResolver, httpClient);
+		const returnParamsExec = new ReturnParamsExecutor(new StateBase(this));
 
-		const nodeExec = getNodeExecFn(executor.execute);
+		const nodeExec = getNodeExecFn(returnParamsExec.execute);
 		return nodeExec.call(this);
 	}
 }

@@ -1,17 +1,14 @@
-import fs from 'fs';
 import fse from 'fs-extra';
-import path from 'path';
-import { INodeParams, IPackageParams, newNode, newPackage } from '../helpers';
-import { ITask, Task, TasksContainer } from "../lib";
-import { copyIcon, createNode, createPackage } from '../tasks';
-import { assignJson } from '../tasks/assignJson';
-import { renameTask } from '../tasks/rename';
-import { SubstituteTask } from '../tasks/substitute';
+import { newNode, newPackage } from 'src/helpers';
+import { Task, TasksContainer } from "src/lib";
+import { createNode, createPackage } from 'src/tasks';
+
+const baseDir = 'generated';
 
 const packageParams = newPackage({
   ns: 'digital-boss',
   suffix: 'mynodes',
-  baseDir: 'dist',
+  baseDir,
 })
 
 const myNode1 = newNode({
@@ -29,7 +26,7 @@ const myNode2 = newNode({
 });
 
 const tasks: Task[] = [
-  () => fse.removeSync('dist'),
+  () => fse.removeSync(packageParams.packageDir),
   createPackage(packageParams, 'templates/starter'),
   createNode(myNode1, 'templates/node', 'templates/creds/three-fields.ts'),
   createNode(myNode2, 'templates/node', 'templates/creds/three-fields.ts')

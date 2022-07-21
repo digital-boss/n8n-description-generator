@@ -4,8 +4,27 @@ import fse from 'fs-extra';
 import { INodeParams, IPackageParams } from "src/helpers";
 import { ITask, TasksContainer } from 'src/lib';
 import { SubstituteTask } from './substitute';
-import { assignJson } from './assignJson';
 import { renameTask } from './rename';
+import mergeWith from 'lodash.mergewith';
+import * as fns from '../utils/functional';
+
+export const removeIfExists = (path: string) => fs.existsSync(path) && fse.removeSync(path);
+
+export const mergePackageJson = (packageDir: string, json: any) => () => {
+  const filePath = path.join(packageDir, 'package.json');
+  fns.pipe(
+    (f: string) => fs.readFileSync(f, 'utf-8'),
+    JSON.parse,
+    (srcObj: any) => mergeWith(srcObj, json, (value, srcValue) => {
+      if (value instanceof Array && srcValue instanceof Array) {
+        return value.concat(srcValue);
+      }
+      return undefined;
+    }),
+    (o: any) => JSON.stringify(o, undefined, 2),
+    (result: string) => fs.writeFileSync(filePath, result, 'utf-8'),
+  )(filePath);
+}
 
 export const copyIcon = (n: INodeParams) => () => 
   n.iconPath 
@@ -18,15 +37,14 @@ export const createPackage = (p: IPackageParams, tplDir: string): ITask => new T
     path: path.join(p.packageDir, 'README.md'),
     data: p,
   }),
-  assignJson(path.join(p.packageDir, 'package.json'), p.packageJson),
+  mergePackageJson(p.packageDir, p.packageJson),
 ]);
-  
+
 export const createNode = (
-    p: INodeParams, 
-    tplDir: string, 
-    credsTlpPath: string
+  p: INodeParams, 
+  tplDir: string, 
+  credsTlpPath: string
 ): ITask => new TasksContainer([
-  // node
   () => fse.copySync(tplDir, p.nodeDir),
   copyIcon(p),
   renameTask(p.nodeDir, p),
@@ -39,25 +57,5 @@ export const createNode = (
     path: path.join(p.package.packageDir, 'credentials'),
     data: p,
   }),
-  assignJson(path.join(p.package.packageDir, 'package.json'), p.packageJson),
+  mergePackageJson(p.package.packageDir, p.packageJson),
 ]);
-
-/*
-ToDo:
-- Check how n8n section looks for two nodes, it should contain merged result, but I suspect that it doesn't work.
-- gen scripts. How about gen and multiple nodes in package?
-- add deps:
-  - devDeps:
-    - esbuild
-    - generator
-  - deps:
-    - designpatterns
-- init git
-
-Then:
-- npm i
-- npm run gen
-- npm run build
-- npm link
-- add link to local instance and run
-*/

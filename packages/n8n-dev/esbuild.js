@@ -1,8 +1,10 @@
 const esbuild = require('esbuild');
-const glob = require("tiny-glob");
+const glob = require("tiny-glob/sync");
 
 (async () => {
-  const entryPoints = await glob("./src/**/*.ts");
+  const entryPoints = [
+    "./src/**/*.ts", 
+  ].map(i => glob(i)).flat();
   esbuild
     .build({
       outbase: 'src',

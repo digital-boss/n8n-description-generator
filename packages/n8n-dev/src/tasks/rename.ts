@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { getAllVars, renderTpl, walk } from 'src/utils';
+import { walk } from 'src/utils/fs/walk';
+import { getAllVars, renderTpl } from 'src/utils/templates';
 
 export const renameTask = (dir: string, data: Record<string, any>) => () => {
   walk(dir, [], [], (f: string) => {
