@@ -5,7 +5,7 @@
 import fs from 'fs';
 import fse from 'fs-extra';
 import path from 'path';
-import { INodeParams, IPackageParams, newNode, newPackage } from 'src/helpers';
+import { execLog, INodeParams, IPackageParams, newNode, newPackage } from 'src/helpers';
 import { ITask, Task, TasksContainer } from 'src/lib';
 import { copyIcon, createNode, createPackage } from 'src/tasks';
 import { renameTask } from 'src/tasks/rename';
@@ -14,7 +14,7 @@ import { removeIfExists } from 'src/tasks';
 import { exec } from 'child_process';
 
 
-const baseDir = 'generated'; // or '/absolute/path'
+const baseDir = '/home/user/path/to/package';
 
 const packageParams = newPackage({
 	ns: 'digital-boss',
@@ -33,7 +33,7 @@ const tasks: Task[] = [
 	() => removeIfExists(packageParams.packageDir),
 	createPackage(packageParams, 'templates/starter'),
 	createNode(node, 'templates/node', 'templates/creds/three-fields.ts'),
-	() => exec('git init'),
+	() => exec(`cd ${packageParams.packageDir} && git init`, execLog),
 ];
 
 const root = new TasksContainer(tasks);
