@@ -10,7 +10,7 @@
 
 set -e  # exit when any command fails
 set -x  # print each command
-debug="true"
+debug="false"
 
 
 function go () {
@@ -34,8 +34,8 @@ function go () {
 		npm run version:gen --if-present
 		npm run build
 		git add --all
-		git commit -m $commitMsg
-		git tag $tag
+		git commit -m "$commitMsg"
+		git tag "$tag"
 		git push
 		git push origin $tag
 	else # test/dry run - just output variables
@@ -49,7 +49,7 @@ function go () {
 
 # Checks
 
-if [ $debug == "false" ] && [ -z "$(git status --porcelain)" ]; then
+if [ $debug == "false" ] && [ -n "$(git status --porcelain)" ]; then
 	echo "Working directory not clean, there is Uncommitted changes"
 	exit 1;
 fi
