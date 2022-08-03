@@ -14,7 +14,7 @@ import { removeIfExists } from 'src/tasks';
 import { exec } from 'child_process';
 
 
-const baseDir = '/home/user/path/to/package';
+const baseDir = '/home/user/path/to/basedir';
 
 const packageParams = newPackage({
 	ns: 'digital-boss',
