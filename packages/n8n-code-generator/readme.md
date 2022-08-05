@@ -63,6 +63,24 @@ npm install
 
 The core library classes is very simple, checkout [`src/lib.ts`](src/lib.ts).
 
+### Templates types and structure
+
+```
+templates
+  credentials
+    three-fields
+  package
+    starter
+  regular-node
+    regular
+  trigger-node
+    trigger
+  common
+    simplify
+    design patterns
+    ...
+  tests (tests for the lib)
+```
 
 ## Current State
 
@@ -77,7 +95,3 @@ Areas of improvement:
 - Add other interfaces ontop of library:
   - CLI
   - yaml. For yaml it will be looks similar to popular devops tool [Ansible](https://github.com/ansible/ansible)
-
-## ToDo
-
-- May be ITask is just (functional) Pipe?
