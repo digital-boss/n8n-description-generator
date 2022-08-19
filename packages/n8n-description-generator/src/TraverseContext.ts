@@ -34,7 +34,7 @@ export class TraverseContext<TTypeName, TSrc=any> {
 	}
 
 	private getPathBySliceEnd (sliceEnd: number): Array<string | number> {
-		return this.path.slice(0, sliceEnd);
+		return this.path.slice(0, sliceEnd); //ToDo: [1,2,3].slice(0, -100) === []
 	}
 
 	private getPath (index?: Array<string | number> | number) {
@@ -75,11 +75,14 @@ export class TraverseContext<TTypeName, TSrc=any> {
 	 * @param pathIndexRev Reversed path index: last = 0, then 1, 2...
 	 */
 	isMatchPart(pattern: string, pathIndexRev: number, debug = false): boolean {
+		if (pathIndexRev > this.path.length) {
+			return false;
+		}
 		const [propName, typesStr] = pattern.split(/\s*::\s*/);
 		const types = typesStr ? typesStr.split(/\s*,\s*/) : [];
 		const pathPart = pathIndexRev === 0
 			? this.path[this.path.length-1]
-			: this.path[this.path.length-1-pathIndexRev];
+			: this.path[this.path.length-1-pathIndexRev]; //ToDo: fix
 
 		this.log(debug, `isMatchPart: pathPart=${pathPart}, propName=${propName}, types`, types);
 		if (propName !== '' && propName !== '*') {
