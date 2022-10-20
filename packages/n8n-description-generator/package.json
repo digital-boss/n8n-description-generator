@@ -1,6 +1,6 @@
 {
   "name": "@digital-boss/n8n-description-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
-    "n8n-core": "~0.119.0",
+    "n8n-core": "~0.135.2",
     "request": "^2.88.2"
   },
   "license": "ISC"
