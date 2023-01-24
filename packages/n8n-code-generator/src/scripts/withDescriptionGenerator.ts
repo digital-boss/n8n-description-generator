@@ -1,5 +1,5 @@
 /**
- * Example of regular node generator script
+ * Example of node generator script for node which uses the description generator
  */
 
 import fs from 'fs';
@@ -13,13 +13,10 @@ import { SubstituteTask } from 'src/tasks/substitute';
 import { removeIfExists } from 'src/tasks';
 import { exec } from 'child_process';
 
-
-const baseDir = '/home/user/path/to/basedir';
-
 const packageParams = newPackage({
 	ns: 'digital-boss',
-	suffix: 'redge',
-	baseDir,
+	suffix: 'the-node-name',
+	baseDir: '/home/user/path/to/basedir',
 });
 
 const node = newNode({
@@ -29,10 +26,14 @@ const node = newNode({
 	iconPath: 'templates/SomeRandomName.png',
 });
 
+const packageTemplate = 'templates/starterDescriptionsGenerator';
+const nodeTemplate = 'templates/node/withDescriptionsGenerator';
+const credentialsTemplate = 'templates/creds/three-fields.ts';
+
 const tasks: Task[] = [
 	() => removeIfExists(packageParams.packageDir),
-	createPackage(packageParams, 'templates/starter'),
-	createNode(node, 'templates/node', 'templates/creds/three-fields.ts'),
+	createPackage(packageParams, packageTemplate),
+	createNode(node, nodeTemplate, credentialsTemplate),
 	() => exec(`cd ${packageParams.packageDir} && git init`, execLog),
 ];
 

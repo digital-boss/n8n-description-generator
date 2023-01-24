@@ -8,16 +8,15 @@ import {
 	INodeTypeDescription,
 } from 'n8n-workflow';
 
+import { ResOpExecutor, ResOpResolver } from '@digital-boss/n8n-designpatterns/dist/usecases/res-op';
+import { ReturnParamsExecutor } from '@digital-boss/n8n-designpatterns/dist/usecases';
+import { getNodeExecFn, StateBase } from '@digital-boss/n8n-designpatterns/dist';
 
 import { version } from '../version';
 import { {{nodeNameCamel}}ApiTest } from './{{nodeName}}ApiTest';
 import { resources } from './descriptions/generated/resources';
 import { nodeDescr } from './descriptions/generated/nodeDescr';
 import { resourcesConst } from './descriptions/generated/resourceOperations';
-import { ResOpExecutor, ResOpResolver } from '@digital-boss/n8n-designpatterns/dist/usecases/res-op';
-import { ReturnParamsExecutor } from '@digital-boss/n8n-designpatterns/dist/usecases';
-import { getNodeExecFn, StateBase } from '@digital-boss/n8n-designpatterns/dist';
-
 
 export class {{nodeName}} implements INodeType {
 	description: INodeTypeDescription = {
