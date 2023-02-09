@@ -1,1 +1,1 @@
-# n8n-node-generator
+# N8N Description Generator
