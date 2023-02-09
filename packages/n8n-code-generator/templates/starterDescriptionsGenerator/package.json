@@ -32,7 +32,8 @@
     "gen:build": "node gen-esbuild.js",
     "gen:run": "for i in nodes/*/descriptions/gen.js; do node $i; done",
     "gen:fix": "tslint --fix -p tsconfig.json -c tslint.json nodes/*/descriptions/generated/*.ts",
-    "gen": "npm run gen:build && npm run gen:run && npm run gen:fix"
+    "gen": "npm run gen:build && npm run gen:run && npm run gen:fix",
+    "fixVulnerabilities": "npx npm-force-resolutions"
   },
   "files": [
     "dist"
@@ -50,7 +51,7 @@
     "gulp": "^4.0.0",
     "jest": "^27.4.7",
     "js-yaml": "^4.1.0",
-    "n8n-workflow": "~0.101.0",
+    "n8n-workflow": "~0.117.2",
     "nodelinter": "^0.1.9",
     "tiny-glob": "^0.2.9",
     "ts-jest": "^27.1.3",
