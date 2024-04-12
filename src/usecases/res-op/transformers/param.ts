@@ -3,19 +3,21 @@ import { ConditionFn, propSetter, TransformerFn } from 'src/transform';
 import { TypeName } from '../types';
 import { TraverseContext } from 'src/TraverseContext';
 
-
 /******************************************************************************
  * Utilities
  */
 
 interface ISrc {
-	models:Record<string, Array<{name?: string}>>;
+	models: Record<string, Array<{ name?: string }>>;
 }
 
-export const getModelField = <T>(name: string, ctx: TraverseContext<T,ISrc>): object | undefined => {
+export const getModelField = <T>(
+	name: string,
+	ctx: TraverseContext<T, ISrc>,
+): object | undefined => {
 	const [modelName, fieldName] = name.split('.');
 	const model = ctx.sourceObj.models[modelName];
-	return model.find(f => f.name === fieldName);
+	return model.find((f) => f.name === fieldName);
 };
 
 export const getDefaultForType = (type?: NodePropertyTypes): any => {
@@ -67,10 +69,10 @@ export const getHighHierarchy = (ctx: TraverseContext<TypeName, ISrc>): string[]
 			if (s.type === 'Param') {
 				result.push(o.name);
 			} else if (s.type === 'Operation') {
-				const op = ctx.path[end-1] as string;
+				const op = ctx.path[end - 1] as string;
 				result.push(op);
 			} else if (s.type === 'Resource') {
-				const resName = ctx.path[end-1] as string;
+				const resName = ctx.path[end - 1] as string;
 				result.push(resName);
 			}
 		}
@@ -78,7 +80,6 @@ export const getHighHierarchy = (ctx: TraverseContext<TypeName, ISrc>): string[]
 	}
 	return result.reverse();
 };
-
 
 export const getRequired = (v: any, ctx: TraverseContext<TypeName, ISrc>): boolean | undefined => {
 	const s = ctx.getData(-2);
@@ -88,14 +89,13 @@ export const getRequired = (v: any, ctx: TraverseContext<TypeName, ISrc>): boole
 	return undefined;
 };
 
-
 /******************************************************************************
  * Conditions and Transformers
  */
 
 export const isLink: ConditionFn = (v, ctx) => v !== null && typeof v === 'object' && '$link' in v;
 
-export const importFromModel: TransformerFn<TypeName,ISrc> = (v: string, ctx) => {
+export const importFromModel: TransformerFn<TypeName, ISrc> = (v: string, ctx) => {
 	const field = getModelField(v, ctx);
 	return field;
 };
@@ -111,8 +111,12 @@ export const linkFromModel: TransformerFn<TypeName, ISrc> = (v, ctx) => {
 };
 
 export const setType: TransformerFn<TypeName, ISrc> = propSetter('type', () => 'string');
-export const setDefault: TransformerFn<TypeName, ISrc> = propSetter('default', (v, _) => getDefaultForType(v.type));
-export const setRequired: TransformerFn<TypeName, ISrc> = propSetter('required', (v, ctx) => getRequired(v, ctx));
+export const setDefault: TransformerFn<TypeName, ISrc> = propSetter('default', (v, _) =>
+	getDefaultForType(v.type),
+);
+export const setRequired: TransformerFn<TypeName, ISrc> = propSetter('required', (v, ctx) =>
+	getRequired(v, ctx),
+);
 
 export const setDisplayOptions: TransformerFn<TypeName, ISrc> = (v, ctx) => {
 	const hier = getHighHierarchy(ctx);
@@ -131,4 +135,3 @@ export const setDisplayOptions: TransformerFn<TypeName, ISrc> = (v, ctx) => {
 		},
 	};
 };
-

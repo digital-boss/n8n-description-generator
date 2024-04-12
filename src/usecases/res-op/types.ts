@@ -1,13 +1,9 @@
 import { INodeProperties } from 'n8n-workflow';
 
-
 /**
  * Base type for Node Description
  */
-export interface INodeDescrBase<
-	TRes extends IResourceBase<TOp>,
-	TOp extends IOperationBase,
-> {
+export interface INodeDescrBase<TRes extends IResourceBase<TOp>, TOp extends IOperationBase> {
 	resources: Record<string, TRes>;
 	models: Record<string, Array<Partial<INodeProperties>>>;
 }
@@ -27,7 +23,6 @@ export interface IOperationBase {
 	notImplemented?: boolean;
 	desc?: string;
 }
-
 
 /**
  * Type names to mark objects (nodes) inside Node Description object

@@ -14,11 +14,10 @@ interface IOp {
 }
 
 export const getResourcesParam = (resources: Record<string, IRes>): INodeProperties => {
-	const options: INodePropertyOptions[] = Object.entries(resources)
-		.map(([name, res]) => ({
-			name: res.display || name,
-			value: name,
-		}));
+	const options: INodePropertyOptions[] = Object.entries(resources).map(([name, res]) => ({
+		name: res.display || name,
+		value: name,
+	}));
 
 	return {
 		displayName: 'Resource',
@@ -60,7 +59,9 @@ export const getOperationsParam = (
 	};
 };
 
-export const getDescriptionsDict = (resources: Record<string, IRes>): Record<string, INodeProperties | INodeProperties[]> => {
+export const getDescriptionsDict = (
+	resources: Record<string, IRes>,
+): Record<string, INodeProperties | INodeProperties[]> => {
 	const result: Record<string, INodeProperties | INodeProperties[]> = {};
 	const resource = getResourcesParam(resources);
 	result.resources = resource;
@@ -72,10 +73,7 @@ export const getDescriptionsDict = (resources: Record<string, IRes>): Record<str
 			.map(([_, op]) => op.params)
 			.flat();
 
-		result[resName + 'Fields'] = [
-			operations,
-			...fields,
-		];
+		result[resName + 'Fields'] = [operations, ...fields];
 	});
 
 	return result;

@@ -1,6 +1,5 @@
 import { ConditionFn, propSetter, TransformerFn } from 'src/transform';
 
-
 /******************************************************************************
  * Utilities
  */
@@ -12,10 +11,11 @@ export const createDisplayName = (name: string): string => {
 	return words.map(cap1st).join(' ');
 };
 
-
 /******************************************************************************
  * Conditions and Transformers
  */
 
-export const isString: ConditionFn = v => typeof v === 'string';
-export const setDisplayName: TransformerFn = propSetter('displayName', v => createDisplayName(v.name));
+export const isString: ConditionFn = (v) => typeof v === 'string';
+export const setDisplayName: TransformerFn = propSetter('displayName', (v) =>
+	createDisplayName(v.name),
+);

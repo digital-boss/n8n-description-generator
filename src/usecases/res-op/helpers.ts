@@ -2,21 +2,23 @@ import fs from 'fs';
 import { INodeProperties } from 'n8n-workflow';
 import { getConstFromObject, getJsModule, warnMsg } from 'src/codegen';
 
-
 export const writeDescriptionModules = (
 	outDir: string,
 	descriptionsDict: Record<string, INodeProperties | INodeProperties[]>,
 ) => {
-	Object.keys(descriptionsDict).map(key => {
+	Object.keys(descriptionsDict).map((key) => {
 		const props = descriptionsDict[key];
 		fs.writeFileSync(`${outDir}/${key}.ts`, getJsModule(props, key), 'utf-8');
 	});
 };
 
 interface IRes {
-	operations: Record<string, {
-		notImplemented?: boolean;
-	}>;
+	operations: Record<
+		string,
+		{
+			notImplemented?: boolean;
+		}
+	>;
 }
 
 export const getTypesForResourceOperations = (resources: Record<string, IRes>): string => {

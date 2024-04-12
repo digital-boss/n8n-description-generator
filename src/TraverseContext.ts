@@ -11,38 +11,40 @@ const jsTypesMatchers = new Map([
 	['obj', (v: any) => !Array.isArray(v) && v instanceof Object],
 ]);
 
-export class TraverseContext<TTypeName, TSrc=any> {
+export class TraverseContext<TTypeName, TSrc = any> {
 	sourceObj: TSrc;
 	path: Array<string | number> = [];
 	data: Record<string, MarkedData<TTypeName>> = {};
 
-	constructor (sourceObj: TSrc) {
+	constructor(sourceObj: TSrc) {
 		this.sourceObj = sourceObj;
 	}
 
-	private log (debug: boolean, ...args: any[]) {
+	private log(debug: boolean, ...args: any[]) {
 		if (debug) {
-			const msg = args.map(i => {
-				if (typeof i === 'object') {
-					return JSON.stringify(i);
-				}
-				return i.toString();
-			}).join('');
+			const msg = args
+				.map((i) => {
+					if (typeof i === 'object') {
+						return JSON.stringify(i);
+					}
+					return i.toString();
+				})
+				.join('');
 
 			console.log(msg);
 		}
 	}
 
-	private getPathBySliceEnd (sliceEnd: number): Array<string | number> {
+	private getPathBySliceEnd(sliceEnd: number): Array<string | number> {
 		return this.path.slice(0, sliceEnd); //ToDo: [1,2,3].slice(0, -100) === []
 	}
 
-	private getPath (index?: Array<string | number> | number) {
+	private getPath(index?: Array<string | number> | number) {
 		return index === undefined || index === 0
 			? this.path
 			: index instanceof Array
-			? index
-			: this.getPathBySliceEnd(index);
+				? index
+				: this.getPathBySliceEnd(index);
 	}
 
 	isMatchCustomType(type: TTypeName, pathIndexRev: number, debug = false) {
@@ -80,9 +82,10 @@ export class TraverseContext<TTypeName, TSrc=any> {
 		}
 		const [propName, typesStr] = pattern.split(/\s*::\s*/);
 		const types = typesStr ? typesStr.split(/\s*,\s*/) : [];
-		const pathPart = pathIndexRev === 0
-			? this.path[this.path.length-1]
-			: this.path[this.path.length-1-pathIndexRev]; //ToDo: fix
+		const pathPart =
+			pathIndexRev === 0
+				? this.path[this.path.length - 1]
+				: this.path[this.path.length - 1 - pathIndexRev]; //ToDo: fix
 
 		this.log(debug, `isMatchPart: pathPart=${pathPart}, propName=${propName}, types`, types);
 		if (propName !== '' && propName !== '*') {
@@ -111,24 +114,23 @@ export class TraverseContext<TTypeName, TSrc=any> {
 	 * @param debug Usage example: const debug = ctx.path.join('.').startsWith('resources.group.operations.createMulti.params.0.options.0');
 	 * @returns
 	 */
-	isMatch (pattern: string, debug = false): boolean {
-
+	isMatch(pattern: string, debug = false): boolean {
 		const parts = pattern.split(/\s*\/\s*/);
 		this.log(debug, 'parts: ', parts);
 		return parts.reverse().every((p, i) => this.isMatchPart(p, i, debug), this);
 	}
 
-	getValue (index?: Array<string | number> | number): any {
+	getValue(index?: Array<string | number> | number): any {
 		const path = this.getPath(index);
 		return getDeepValue(path, this.sourceObj);
 	}
 
-	getData (index?: Array<string | number> | number): MarkedData<TTypeName> | undefined {
+	getData(index?: Array<string | number> | number): MarkedData<TTypeName> | undefined {
 		const path = this.getPath(index);
 		return this.data[path.join('.')];
 	}
 
-	setData (path: Array<string | number>, data: MarkedData<TTypeName>) {
+	setData(path: Array<string | number>, data: MarkedData<TTypeName>) {
 		this.data[path.join('.')] = data;
 	}
 }
