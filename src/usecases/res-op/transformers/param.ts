@@ -2,6 +2,7 @@ import { NodePropertyTypes } from 'n8n-workflow';
 import { ConditionFn, propSetter, TransformerFn } from 'src/transform';
 import { TypeName } from '../types';
 import { TraverseContext } from 'src/TraverseContext';
+import { merge } from 'lodash';
 
 /******************************************************************************
  * Utilities
@@ -124,13 +125,14 @@ export const setDisplayOptions: TransformerFn<TypeName, ISrc> = (v, ctx) => {
 		return v;
 	}
 	const [res, op] = hier;
+	
+	let displayOptions = { show: { resource: [res], operation: [op] } };
+	if (v.displayOptions) {
+		merge(displayOptions, v.displayOptions);
+	}
+
 	return {
 		...v,
-		displayOptions: {
-			show: {
-				resource: [res],
-				operation: [op],
-			},
-		},
+		displayOptions,
 	};
 };
