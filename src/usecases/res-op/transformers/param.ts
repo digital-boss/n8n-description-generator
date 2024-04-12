@@ -36,6 +36,8 @@ export const getDefaultForType = (type?: NodePropertyTypes): any => {
 			return '';
 		case 'options':
 			return '';
+		case 'multiOptions':
+			return [];
 		// Not implemented:
 		// case 'color':
 		// 	return
@@ -45,9 +47,6 @@ export const getDefaultForType = (type?: NodePropertyTypes): any => {
 		// 	return
 		// case 'notice':
 		// 	return
-		// case 'multiOptions':
-		// 	return
-
 		// case 'credentialsSelect':
 		// 	return
 		default:
